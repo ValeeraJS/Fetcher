@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+</head>
+
+<body>
+    <img id="imgTest"/>
+    <script src="build/EventDispatcher.js"></script>
+    <script src="build/Fetcher.js"></script>
+    <script>
+        // fetch("./3.jpg").then(data => {
+        //     console.log(data, '----')
+        //     return data.blob()
+        // }).then(blob=>{
+        //     console.log(blob, '----')
+        // })
+        const fetcher = new Fetcher("./3.jpg");
+        console.log(fetcher, Fetcher);
+        fetcher.on(Fetcher.PROGRESSING, (e)=>{
+            console.log(e.target.progress, e.target.getCurrentReadSpeed());
+        }).on(Fetcher.CANCELLED, (e)=>{
+            console.log(e, '=========')
+        }).on(Fetcher.ERROR, (e)=>{
+            console.log(e, '=========')
+        }).fetch().then(data=>{
+            console.log(data)
+            return data.blob();
+        }).then(data=>{
+            console.log(data)
+        }).catch(e=>{
+            console.log(e)
+        });
+
+        // fetch("./3.jpg").then((response) => {
+        //     console.log(response)
+        //     const {body, headers} = response;
+        //     const reader = body.getReader();
+        //     const stream = new ReadableStream({
+        //         start(controller) {
+        //             // The following function handles each data chunk
+        //             function push() {
+        //                 // "done" is a Boolean and value a "Uint8Array"
+        //                 reader.read().then((res) => {
+        //                     let { done, value } = res;
+        //                     console.log(res, headers.get('content-length'))
+        //                     // Is there no more data to read?
+        //                     if (done) {
+        //                         // Tell the browser that we have finished sending data
+        //                         controller.close();
+        //                         return;
+        //                     }
+
+        //                     // Get the data and send it to the browser via the controller
+        //                     controller.enqueue(value);
+        //                     push();
+        //                 });
+        //             };
+        //             console.log(controller)
+        //             push();
+        //         }
+        //     });
+        //     console.log(stream);
+
+        //     return new Response(stream, {headers});
+        // });
+    </script>
+</body>
+
+</html>
